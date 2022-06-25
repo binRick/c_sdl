@@ -91,8 +91,7 @@ static const Uint32 color_palette[16] = {
 };
 
 
-int DBGP_Print(DBGP_Font *font, SDL_Renderer *renderer, int x, int y, uint8_t colors,
-               const char *str) {
+int DBGP_Print(DBGP_Font *font, SDL_Renderer *renderer, int x, int y, uint8_t colors, const char *str) {
   if (font == NULL || font->tex == NULL || renderer == NULL) {
     return(-1);
   }

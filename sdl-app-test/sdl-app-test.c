@@ -26,7 +26,7 @@ int main(void) {
   SDL_SetHint(SDL_HINT_BMP_SAVE_LEGACY_FORMAT, "1");
 
   SDL_Window *window = SDL_CreateWindow(
-    "SDL_DBGP-test", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
+    "SDL_DBGP-test", WIN_OFFSET_X, WIN_OFFSET_Y,
     WIN_WIDTH, WIN_HEIGHT, SDL_WINDOW_RESIZABLE | SDL_WINDOW_ALLOW_HIGHDPI);
   if (window == NULL) {
     SDL_Log("Unable to create window: %s", SDL_GetError());
@@ -96,7 +96,7 @@ int main(void) {
       &unscii16, renderer, 0 * 8, 4 * 16, 0x3f, "Something $F3somethinG");
 
     DBGP_Printf(
-      &unscii16, renderer, 0, 5 * 16, DBGP_DEFAULT_COLORS,
+      &unscii16, renderer, 250, 15 * 16, DBGP_DEFAULT_COLORS,
       "A string with accents: $74%s", iso_string);
 
     DBGP_Printf(

@@ -15,7 +15,8 @@ DIR=$(shell pwd)
 ##############################################################
 TIDIED_FILES = \
 			   sdl-*/*.c sdl-*/*.h \
-			   sdl-*-test/*.c sdl-*-test/*.h 
+			   sdl-*-test/*.c sdl-*-test/*.h \
+			   *-test/*.c *-test/*.h
 ########################################################
 ##############################################################
 uncrustify:
@@ -37,11 +38,11 @@ do-ninja-test:
 	@eval cd . && { passh ninja test -C build -v; echo NINJA TEST OK; }
 do-nodemon:
 	@$(PASSH) -L .nodemon.log $(NODEMON) \
-	-V \
 		--delay .3 \
 		-w "sdl/*.c" -w "sdl/*.h" -w "*-test/*.c" -w "*-test/*.h" \
 		-w 'meson/meson.build' -w 'meson/deps/*/meson.build' -w 'meson.build' \
 		-w Makefile \
+		-w 'submodules/meson.build' -w meson.build \
 		-i '*/embeds/*' -i 'subprojects/*/' -i submodules -i 'build/*' \
 			-e Makefile,tpl,build,sh,c,h,Makefile \
 			-x env -- bash -xc 'make'

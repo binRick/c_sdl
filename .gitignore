@@ -6,3 +6,5 @@ build
 .attic
 .make*log*
 .DU
+.nodemon.log
+*.bmp
