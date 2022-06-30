@@ -1,6 +1,6 @@
 
 subdir('meson_deps/meson')
-subdir('meson_deps/meson/deps/ansicodes')
+#subdir('meson_deps/meson/deps/ansicodes')
 #subdir('meson_deps/submodules/c_darwin/submodules')
 #subdir('meson_deps/meson/deps/parson')
 #subdir('meson_deps/meson/deps/c_stringfn')
