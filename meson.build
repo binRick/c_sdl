@@ -18,6 +18,8 @@ inc = [
     './submodules/meson_deps/submodules/generic-print',
     './submodules/meson_deps/submodules/str-replace.c/src',
     './submodules/meson_deps/submodules/c_ansi',
+    './submodules/meson_deps/submodules/c_darwin',
+    './submodules/meson_deps/submodules/c_darwin/kitty',
     './submodules/meson_deps/submodules/progressbar/include',
     './submodules/meson_deps/submodules/progressbar/include/progressbar',
     './submodules/meson_deps/submodules/list/src',

@@ -40,7 +40,7 @@ do-nodemon:
 	@$(PASSH) -L .nodemon.log $(NODEMON) \
 		--delay .3 \
 		-w "sdl/*.c" -w "sdl/*.h" -w "*-test/*.c" -w "*-test/*.h" \
-		-w 'meson/meson.build' -w 'meson/deps/*/meson.build' -w 'meson.build' \
+		-w 'meson/meson.build' -w 'meson/deps/*/meson.build' -w 'meson.build' -w submodules/meson.build \
 		-w Makefile \
 		-w 'submodules/meson.build' -w meson.build \
 		-i '*/embeds/*' -i 'subprojects/*/' -i submodules -i 'build/*' \
@@ -58,14 +58,11 @@ git-pull:
 
 do-uncrustify: uncrustify uncrustify-clean fix-dbg
 do-build: do-meson do-ninja
-do-test: do-ninja-test do-deps-test
+do-test: do-ninja-test
 test: do-test
 build: do-meson do-build
 ansi: all do-sync do-ansi-make
-tidy: \
-	do-uncrustify \
-	do-build \
-	git-add
+tidy: do-uncrustify
 dev: do-nodemon
 all: do-build 
 meson-introspect-targets:
