@@ -20,7 +20,7 @@ TIDIED_FILES = \
 ########################################################
 ##############################################################
 uncrustify:
-	@$(UNCRUSTIFY) -c etc/uncrustify.cfg --replace $(TIDIED_FILES)||true
+	@$(UNCRUSTIFY) -c submodules/meson_deps/etc/uncrustify.cfg --replace $(TIDIED_FILES)||true
 uncrustify-clean:
 	@find  . -type f -maxdepth 2 -name "*unc-back*"|xargs -I % unlink %
 clean:

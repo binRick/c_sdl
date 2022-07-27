@@ -1,16 +1,14 @@
-#define DEBUG_WORKERS      false
+#define DEBUG_WORKERS      true
 #define WINDOW_TITLE       "Application Title"
-#define WINDOW_X_OFFSET    670
-#define WINDOW_Y_OFFSET    100
+#define WINDOW_X_OFFSET    400
+#define WINDOW_Y_OFFSET    50
 #define WIN_WIDTH          800
 #define WIN_HEIGHT         300
 #define GLYPHS_PER_LINE    (256 / 8)
 #define SDL_WINDOW_OPTIONS                        \
   SDL_WINDOW_RESIZABLE | SDL_WINDOW_ALLOW_HIGHDPI \
   | SDL_WINDOW_BORDERLESS | SDL_WINDOW_ALWAYS_ON_TOP
-#include "sdl-term-app-test.h"
-#include "submodules/c_darwin/active-app/active-app.h"
-#include "submodules/c_darwin/window-utils/window-utils.h"
+/////////////////////////////////////////////////////////////////
 #include <assert.h>
 #include <ctype.h>
 #include <pthread.h>
@@ -24,9 +22,15 @@
 #include <sys/time.h>
 #include <time.h>
 #include <unistd.h>
+/////////////////////////////////////////////////////////////////
+#include "sdl-term-app-test/sdl-term-app-test.h"
+#include "submodules/c_darwin/active-app/active-app.h"
+#include "submodules/c_darwin/window-utils/window-utils.h"
+/////////////////////////////////////////////////////////////////
 #define L    log_debug
 #define I    log_info
 #define E    log_error
+/////////////////////////////////////////////////////////////////
 int sdl_term_app_main(void);
 
 /////////////////////////////////////////////////////////////
@@ -40,125 +44,17 @@ DBGP_Font       unscii16;
 char            *iso_string;
 SDL_Window      *window;
 /////////////////////////////////////////////////////////////
-pthread_t       worker_threads[10];
-worker_t        *workers;
 volatile int    processed_jobs_qty = 0, processed_qtys[1024];
-chan_t          *JOBS_CHANNEL, *DONE_CHANNEL;
 char            msg0[1024 * 2];
+
+
 /////////////////////////////////////////////////////////////
-#define BUFFER_QTY         50000
-#define JOBS_QTY           45500
-#define WORKER_SLEEP_MS    100
 
 
 void window_init(){
   int i = get_focused_pid();
 
   fprintf(stderr, "found focused pid to be %d.....\n", i);
-}
-
-
-/////////////////////////////////////////////////////////////
-void worker(){
-  void      *job;
-  size_t    WORKER_ID = 1;
-  //(size_t)WID;
-  int       width = 1, height = -1, rw = -1, rh = -1;
-  char      c[1024] = "t1";
-
-  focused_t *fp     = get_focused_process();
-  int       win_qty = get_windows_qty();
-
-  L("%lu> Worker waing for jobs....", WORKER_ID);
-  while (chan_recv(JOBS_CHANNEL, &job) == 0) {
-    usleep(WORKER_SLEEP_MS * 1000 * WORKER_ID);
-    processed_qtys[WORKER_ID]++;
-    if ((processed_qtys[WORKER_ID] % 50) == 1) {
-    }
-    if ((processed_qtys[WORKER_ID] % 10) == 1) {
-      //   fp = get_focused_process();
-      win_qty = get_windows_qty();
-//      SDL_SetCaption(c,NULL);
-    }
-    SDL_GetWindowSize(window, &width, &height);
-    SDL_GetRendererOutputSize(renderer, &rw, &rh);
-    sprintf(msg,
-            "OK- %lu: %d> [window:%dx%d][renderer:%dx%d][font:%dx%d][cols:%d][rows:%d]"
-            "\n"
-            "[windows:%d][focus:%s|%d][mod:%d]",
-            WORKER_ID,
-            processed_qtys[WORKER_ID],
-            width, height,
-            rw, rh,
-            unscii16.glyph_width, unscii16.glyph_height,
-            (rw / DBGP_UNSCII16_WIDTH),
-            (rh / DBGP_UNSCII16_HEIGHT),
-            win_qty,
-            fp->name, fp->pid,
-            (processed_qtys[WORKER_ID] % 10 == 0)
-            );
-    sprintf(workers[WORKER_ID].msg,
-            "\t"
-            AC_RESETALL AC_YELLOW "<%d>" AC_RESETALL
-            "\t"
-            AC_RESETALL AC_YELLOW_BLACK "#" AC_RESETALL
-            AC_RESETALL AC_BRIGHT_YELLOW_BLACK AC_BOLD "%lu" AC_RESETALL
-            AC_RESETALL AC_YELLOW_BLACK "" AC_RESETALL
-            " #%lu OK."
-            " : "
-            AC_RESETALL AC_UNDERLINE AC_MAGENTA_BLACK "processed %d jobs" AC_RESETALL
-            AC_RESETALL AC_ITALIC AC_BLUE "(%d jobs in queue)" AC_RESETALL,
-            getpid(),
-            WORKER_ID,
-            (size_t)job,
-            processed_qtys[WORKER_ID],
-            chan_size(JOBS_CHANNEL)
-            );
-    if (DEBUG_WORKERS) {
-      I("%s", workers[WORKER_ID].msg);
-    }
-  }
-
-  L(AC_RESETALL AC_GREEN_BLACK AC_ITALIC "%lu> received all jobs> " AC_RESETALL, WORKER_ID);
-  chan_send(DONE_CHANNEL, (void *)WORKER_ID);
-  return(NULL);
-} /* worker */
-
-
-void test_send_channel(){
-  char *sent_dur;
-
-  for (size_t i = 1; i <= JOBS_QTY; i++) {
-    chan_send(JOBS_CHANNEL, (void *)i);
-    if (DEBUG_WORKERS) {
-      I(
-        "          "
-        AC_RESETALL AC_YELLOW AC_ITALIC "sent job "
-        AC_RESETALL AC_BLUE "%3lu" AC_RESETALL,
-        i
-        );
-    }
-  }
-
-
-  chan_close(JOBS_CHANNEL);
-
-  log_debug("sent all jobs in %s. waiting for done signals......",
-            "666"
-            );
-  //free(sent_dur);
-}
-
-
-void test_setup_channels(void){
-  JOBS_CHANNEL = chan_init(BUFFER_QTY);
-  DONE_CHANNEL = chan_init(0);
-  workers      = malloc(sizeof(worker_t) * 1);
-
-//  test_send_channel();
-  processed_qtys[1] = 0;
-//  worker((void*)1);
-//  int res = pthread_create(&worker_threads[1], NULL, worker,NULL);
 }
 
 
@@ -238,18 +134,12 @@ int sdl_term_app_main(void) {
   log_debug("found focused pid to be %d.....\n", focused_pid);
   pthread_t th;
 
-/*
- */
-// int i = 1;
-//  pthread_create(&th, NULL, test_setup_channels, (void*)0);
-//test_setup_channels();
   iso_string = SDL_iconv_string("ISO-8859-1", "UTF-8", "Ébène", sizeof("Ébène"));
   if (SDL_Init(SDL_INIT_VIDEO) != 0) {
     SDL_Log("Unable to initialise SDL2: %s", SDL_GetError());
     return(1);
   }
   SDL_SetHint(SDL_HINT_BMP_SAVE_LEGACY_FORMAT, "1");
-//  SDL_EnableKeyRepeat(SDL_DEFAULT_REPEAT_DELAY, SDL_DEFAULT_REPEAT_INTERVAL);
 
   window = SDL_CreateWindow(
     WINDOW_TITLE,
@@ -292,6 +182,9 @@ int sdl_term_app_main(void) {
           );
   while (!should_quit) {
     while (SDL_PollEvent(&event)) {
+      if (should_quit) {
+        break;
+      }
       keypresses++;
       sprintf(msg0,
               "keypress %s%s$0F%s%lu$0F: |%stype$0F:%d$0F|"
@@ -320,19 +213,22 @@ int sdl_term_app_main(void) {
       case SDL_QUIT: should_quit = 1; break;
 
       case SDL_KEYDOWN:
+        if (event.key.keysym.sym == SDLK_q) {
+          log_debug("quitting........");
+          should_quit = 1;
+          break;
+        }
         if (event.key.keysym.sym == SDLK_g) {
           log_debug("focus pid........%d", focused_pid);
           break;
         }
         if (event.key.keysym.sym == SDLK_f) {
-          log_debug("focus pid........%d", focused_pid);
           log_debug("found focused pid to be %d.....\n", focused_pid);
-//  int i = get_focused_pid();
-//log_debug("found focused pid to be %d.....\n", i);
           break;
         }
         if (event.key.keysym.sym == SDLK_s) {
           screenshot(renderer, "screenshot.bmp");
+          log_debug("screenshot..");
         }
         break;
       }

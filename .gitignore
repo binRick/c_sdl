@@ -9,3 +9,5 @@ build
 .nodemon.log
 *.bmp
 loc.sh
+.cache/
+qr-code.png
