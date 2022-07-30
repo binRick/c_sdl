@@ -26,16 +26,17 @@ uncrustify-clean:
 clean:
 	@rm -rf build .cache
 fix-dbg:
+	@$(SED) 's|, % c);|, %c);|g' -i $(TIDIED_FILES)
 	@$(SED) 's|, % s);|, %s);|g' -i $(TIDIED_FILES)
 	@$(SED) 's|, % lu);|, %lu);|g' -i $(TIDIED_FILES)
 	@$(SED) 's|, % d);|, %d);|g' -i $(TIDIED_FILES)
 	@$(SED) 's|, % zu);|, %zu);|g' -i $(TIDIED_FILES)
 do-meson:
-	@eval cd . && {  meson build || { meson build --reconfigure || { meson build --wipe; } && meson build; }; echo MESON OK; }
+	@meson build || { meson build --reconfigure || { meson build --wipe; } && meson build; }
 do-ninja:
-	@eval cd . && { ninja -C build; echo NINJA OK; }
+	@ninja -C build
 do-ninja-test:
-	@eval cd . && { passh ninja test -C build -v; echo NINJA TEST OK; }
+	@passh ninja test -C build -v
 do-nodemon:
 	@$(PASSH) -L .nodemon.log $(NODEMON) \
 		--delay .3 \

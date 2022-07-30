@@ -11,7 +11,7 @@ sdl_app_deps = [
   sdl2_dep,
 ]
 
-sdl_app_lib = library('sdl-app',
+sdl_app_lib = static_library('sdl-app',
   sdl_app_srcs,
   install: false,
   dependencies: sdl_app_deps,
