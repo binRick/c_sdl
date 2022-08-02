@@ -1,10 +1,10 @@
 project('c_sdl',['c'],default_options:['warning_level=0','c_std=gnu99'],
-  subproject_dir: 'submodules/meson_deps/subprojects',
+  subproject_dir: 'submodules/c_deps/subprojects',
   version: '0.0.1',
   )
 cc = meson.get_compiler('c')
 pwd = meson.current_source_dir()
-meson_deps_dir = join_paths(meson.current_source_dir(),'submodules/meson_deps')
+c_deps_dir = join_paths(meson.current_source_dir(),'submodules/c_deps')
 subdir('meson')
 #############################################################
 inc = [
@@ -12,19 +12,19 @@ inc = [
   include_directories('./sdl-app'),
   include_directories('./sdl-app-fonts'),
   include_directories(
-    './submodules/meson_deps',
-    './submodules/meson_deps/submodules',
-    './submodules/meson_deps/submodules/c_stringfn/include',
-    './submodules/meson_deps/submodules/dbg',
-    './submodules/meson_deps/submodules/generic-print',
-    './submodules/meson_deps/submodules/str-replace.c/src',
-    './submodules/meson_deps/submodules/c_ansi',
-    './submodules/meson_deps/submodules/c_darwin',
-    './submodules/meson_deps/submodules/c_darwin/kitty',
-    './submodules/meson_deps/submodules/progressbar/include',
-    './submodules/meson_deps/submodules/progressbar/include/progressbar',
-    './submodules/meson_deps/submodules/list/src',
-    './submodules/meson_deps/submodules/c_darwin/app-utils',
+    './submodules/c_deps',
+    './submodules/c_deps/submodules',
+    './submodules/c_deps/submodules/c_stringfn/include',
+    './submodules/c_deps/submodules/dbg',
+    './submodules/c_deps/submodules/generic-print',
+    './submodules/c_deps/submodules/str-replace.c/src',
+    './submodules/c_deps/submodules/c_ansi',
+    './submodules/c_deps/submodules/c_darwin',
+    './submodules/c_deps/submodules/c_darwin/kitty',
+    './submodules/c_deps/submodules/progressbar/include',
+    './submodules/c_deps/submodules/progressbar/include/progressbar',
+    './submodules/c_deps/submodules/list/src',
+    './submodules/c_deps/submodules/c_darwin/app-utils',
     ),
 ]
 sdl2_dep = dependency('sdl2',fallback:['sdl2', 'sdl2'], required: true)
