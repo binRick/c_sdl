@@ -11,3 +11,4 @@ build
 loc.sh
 .cache/
 qr-code.png
+submodules/c_deps
