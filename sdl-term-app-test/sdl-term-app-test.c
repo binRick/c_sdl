@@ -47,9 +47,7 @@ SDL_Window      *window;
 volatile int    processed_jobs_qty = 0, processed_qtys[1024];
 char            msg0[1024 * 2];
 
-
 /////////////////////////////////////////////////////////////
-
 
 void window_init(){
   int i = get_focused_pid();
@@ -57,11 +55,9 @@ void window_init(){
   fprintf(stderr, "found focused pid to be %d.....\n", i);
 }
 
-
 int main(int argc, char **argv) {
   return(sdl_term_app_main());
 }
-
 
 void screenshot(SDL_Renderer *renderer, const char *filename) {
   int width  = 0;
@@ -78,7 +74,6 @@ void screenshot(SDL_Renderer *renderer, const char *filename) {
   SDL_SaveBMP(screenshot, filename);
   SDL_FreeSurface(screenshot);
 }
-
 
 void render_screen(void){
   SDL_SetRenderDrawColor(renderer, 0x30, 0x30, 0x30, 0xff);
@@ -125,7 +120,6 @@ void render_screen(void){
   SDL_RenderPresent(renderer);
 } /* render_screen */
 
-
 int sdl_term_app_main(void) {
   static int set_focus_qty = 0;
   static int focused_pid   = -1;
@@ -166,14 +160,12 @@ int sdl_term_app_main(void) {
     return(1);
   }
 
-
   if (DBGP_OpenFont(
         &unscii8, renderer, DBGP_UNSCII8, sizeof(DBGP_UNSCII8),
         DBGP_UNSCII8_WIDTH, DBGP_UNSCII8_HEIGHT) != 0) {
     SDL_Log("Unable to initialise DBGP_UNSCII8: %s", SDL_GetError());
     return(1);
   }
-
 
   fprintf(stderr,
           "\n**OPTIONS**\n\n"

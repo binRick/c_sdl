@@ -1,7 +1,6 @@
 #include "sdl-app.h"
 #define GLYPHS_PER_LINE    (256 / 8)
 
-
 int DBGP_OpenFont(DBGP_Font *font, SDL_Renderer *renderer, const char * const raw_data,
                   size_t raw_data_len, uint8_t glyph_width, uint8_t glyph_height) {
   if (font == NULL) {
@@ -55,10 +54,8 @@ int DBGP_OpenFont(DBGP_Font *font, SDL_Renderer *renderer, const char * const ra
   SDL_SetRenderTarget(renderer, target);
   SDL_SetRenderDrawColor(renderer, r, g, b, a);
 
-
   return(0);
 } /* DBGP_OpenFont */
-
 
 void DBGP_CloseFont(DBGP_Font *font) {
   if (font == NULL) {
@@ -70,12 +67,10 @@ void DBGP_CloseFont(DBGP_Font *font) {
   }
 }
 
-
 static inline SDL_bool is_hex(char c) {
   return((c >= '0' && c <= '9') || (c >= 'a' && c <= 'f')
          || (c >= 'A' && c <= 'F'));
 }
-
 
 static inline uint8_t get_hex_value(char c) {
   if (c >= '0' && c <= '9') {
@@ -96,7 +91,6 @@ static const Uint32 color_palette[16] = {
   0xaa5500, 0xaaaaaa, 0x555555, 0x5555ff, 0x55ff55, 0x55ffff,
   0xff5555, 0xff55ff, 0xffff55, 0xffffff,
 };
-
 
 int DBGP_Print(DBGP_Font *font, SDL_Renderer *renderer, int x, int y, uint8_t colors, const char *str) {
   if (font == NULL || font->tex == NULL || renderer == NULL) {
@@ -162,7 +156,6 @@ int DBGP_Print(DBGP_Font *font, SDL_Renderer *renderer, int x, int y, uint8_t co
 } /* DBGP_Print */
 
 static char printf_buffer[DBGP_MAX_STR_LEN];
-
 
 int DBGP_Printf(DBGP_Font *font, SDL_Renderer *renderer, int x, int y, uint8_t colors,
                 const char *fmt, ...) {

@@ -139,4 +139,3 @@ int DBGP_Print(DBGP_Font *font, SDL_Renderer *renderer, int x, int y, uint8_t co
  * \sa DBGP_Print
  */
 int DBGP_Printf(DBGP_Font *font, SDL_Renderer *renderer, int x, int y, uint8_t colors, const char *fmt, ...);
-

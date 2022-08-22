@@ -1,6 +1,5 @@
 #include "sdl-app-test.h"
 
-
 void screenshot(SDL_Renderer *renderer, const char *filename) {
   int width  = 0;
   int height = 0;
@@ -16,7 +15,6 @@ void screenshot(SDL_Renderer *renderer, const char *filename) {
   SDL_SaveBMP(screenshot, filename);
   SDL_FreeSurface(screenshot);
 }
-
 
 int main(void) {
   if (SDL_Init(SDL_INIT_VIDEO) != 0) {
