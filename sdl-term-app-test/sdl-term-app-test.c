@@ -24,8 +24,6 @@
 #include <unistd.h>
 /////////////////////////////////////////////////////////////////
 #include "sdl-term-app-test/sdl-term-app-test.h"
-#include "submodules/c_darwin/active-app/active-app.h"
-#include "submodules/c_darwin/window-utils/window-utils.h"
 /////////////////////////////////////////////////////////////////
 #define L    log_debug
 #define I    log_info
@@ -50,9 +48,6 @@ char            msg0[1024 * 2];
 /////////////////////////////////////////////////////////////
 
 void window_init(){
-  int i = get_focused_pid();
-
-  fprintf(stderr, "found focused pid to be %d.....\n", i);
 }
 
 int main(int argc, char **argv) {
@@ -121,13 +116,6 @@ void render_screen(void){
 } /* render_screen */
 
 int sdl_term_app_main(void) {
-  static int set_focus_qty = 0;
-  static int focused_pid   = -1;
-
-  focused_pid = get_focused_pid();
-  log_debug("found focused pid to be %d.....\n", focused_pid);
-  pthread_t th;
-
   iso_string = SDL_iconv_string("ISO-8859-1", "UTF-8", "Ébène", sizeof("Ébène"));
   if (SDL_Init(SDL_INIT_VIDEO) != 0) {
     SDL_Log("Unable to initialise SDL2: %s", SDL_GetError());
@@ -211,11 +199,9 @@ int sdl_term_app_main(void) {
           break;
         }
         if (event.key.keysym.sym == SDLK_g) {
-          log_debug("focus pid........%d", focused_pid);
           break;
         }
         if (event.key.keysym.sym == SDLK_f) {
-          log_debug("found focused pid to be %d.....\n", focused_pid);
           break;
         }
         if (event.key.keysym.sym == SDLK_s) {

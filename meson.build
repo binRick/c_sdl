@@ -19,12 +19,15 @@ inc = [
     './submodules/c_deps/submodules/generic-print',
     './submodules/c_deps/submodules/str-replace.c/src',
     './submodules/c_deps/submodules/c_ansi',
-    './submodules/c_deps/submodules/c_darwin',
-    './submodules/c_deps/submodules/c_darwin/kitty',
     './submodules/c_deps/submodules/progressbar/include',
     './submodules/c_deps/submodules/progressbar/include/progressbar',
     './submodules/c_deps/submodules/list/src',
-    './submodules/c_deps/submodules/c_darwin/app-utils',
+    './submodules/c_deps/submodules/iowow',
+    './submodules/c_deps/submodules/iowow/src',
+    './submodules/c_deps/submodules/iowow/src/fs',
+    './submodules/c_deps/submodules/iowow/src/platform',
+    './submodules/c_deps/submodules/iowow/src/kv',
+    './submodules/c_deps/submodules/iowow/src/log',
     ),
 ]
 sdl2_dep = dependency('sdl2',fallback:['sdl2', 'sdl2'], required: true)

@@ -13,7 +13,7 @@ sdl_app_fonts_deps = [
 ]
 
 
-sdl_app_fonts_lib = static_library('sdl-app-fonts',
+sdl_app_fonts_lib = library('sdl-app-fonts',
   sdl_app_fonts_srcs,
   install: false,
   dependencies: sdl_app_fonts_deps,

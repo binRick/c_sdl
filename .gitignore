@@ -12,3 +12,5 @@ loc.sh
 .cache/
 qr-code.png
 submodules/c_deps
+.meson.build*.log
+.meson-build*.log

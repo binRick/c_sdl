@@ -12,14 +12,11 @@ sdl_term_app_test_deps = [
  sdl_app_fonts_dep,
  chan_dep,
  ansi_codes_dep,
- logh_dep,
+ log_dep,
  ms_dep,
  timestamp_dep,
  c_timer_dep,
  bytes_dep,  
- app_utils_dep,
- window_utils_dep,
- active_app_dep,
 ]
 
 if get_option('enable-binaries')
