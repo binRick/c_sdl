@@ -74,12 +74,10 @@ void render_screen(void){
   SDL_SetRenderDrawColor(renderer, 0x30, 0x30, 0x30, 0xff);
   SDL_RenderClear(renderer);
 
-  if (strlen(msg0) > 0) {
+  if (strlen(msg0) > 0)
     DBGP_Print(&unscii16, renderer, 0, 15 * 16, DBGP_DEFAULT_COLORS, msg0);
-  }
-  if (strlen(msg) > 0) {
+  if (strlen(msg) > 0)
     DBGP_Print(&unscii16, renderer, 0, 13 * 16, DBGP_DEFAULT_COLORS, msg);
-  }
 
   DBGP_Print(
     &unscii16, renderer, 40 * 8, 0 * 16, 0x0f,
@@ -162,9 +160,8 @@ int sdl_term_app_main(void) {
           );
   while (!should_quit) {
     while (SDL_PollEvent(&event)) {
-      if (should_quit) {
+      if (should_quit)
         break;
-      }
       keypresses++;
       sprintf(msg0,
               "keypress %s%s$0F%s%lu$0F: |%stype$0F:%d$0F|"
@@ -198,12 +195,10 @@ int sdl_term_app_main(void) {
           should_quit = 1;
           break;
         }
-        if (event.key.keysym.sym == SDLK_g) {
+        if (event.key.keysym.sym == SDLK_g)
           break;
-        }
-        if (event.key.keysym.sym == SDLK_f) {
+        if (event.key.keysym.sym == SDLK_f)
           break;
-        }
         if (event.key.keysym.sym == SDLK_s) {
           screenshot(renderer, "screenshot.bmp");
           log_debug("screenshot..");

@@ -60,17 +60,15 @@ int main(void) {
   int       should_quit = 0;
   SDL_Event event;
   while (!should_quit) {
-    while (SDL_PollEvent(&event)) {
+    while (SDL_PollEvent(&event))
       switch (event.type) {
       case SDL_QUIT: should_quit = 1; break;
 
       case SDL_KEYDOWN:
-        if (event.key.keysym.sym == SDLK_s) {
+        if (event.key.keysym.sym == SDLK_s)
           screenshot(renderer, "screenshot.bmp");
-        }
         break;
       }
-    }
 
     SDL_SetRenderDrawColor(renderer, 0x30, 0x30, 0x30, 0xff);
     SDL_RenderClear(renderer);

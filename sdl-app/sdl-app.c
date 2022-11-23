@@ -3,9 +3,9 @@
 
 int DBGP_OpenFont(DBGP_Font *font, SDL_Renderer *renderer, const char * const raw_data,
                   size_t raw_data_len, uint8_t glyph_width, uint8_t glyph_height) {
-  if (font == NULL) {
+  if (font == NULL)
     return(-1);
-  }
+
 
   font->glyph_width  = glyph_width;
   font->glyph_height = glyph_height;
@@ -14,19 +14,17 @@ int DBGP_OpenFont(DBGP_Font *font, SDL_Renderer *renderer, const char * const ra
     renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET,
     GLYPHS_PER_LINE * glyph_width,
     font->nb_glyphs / GLYPHS_PER_LINE * glyph_height);
-  if (font->tex == NULL) {
+  if (font->tex == NULL)
     return(-1);
-  }
-  if (SDL_SetTextureBlendMode(font->tex, SDL_BLENDMODE_BLEND) != 0) {
+
+  if (SDL_SetTextureBlendMode(font->tex, SDL_BLENDMODE_BLEND) != 0)
     SDL_Log("Error while setting blend mode: %s", SDL_GetError());
-  }
 
   SDL_Texture *target = SDL_GetRenderTarget(renderer);
 
   Uint8       r = 0, g = 0, b = 0, a = 0;
-  if (SDL_GetRenderDrawColor(renderer, &r, &g, &b, &a) != 0) {
+  if (SDL_GetRenderDrawColor(renderer, &r, &g, &b, &a) != 0)
     SDL_Log("Error while getting renderer draw color: %s", SDL_GetError());
-  }
 
   // draw all glyphs on texture once
   SDL_SetRenderTarget(renderer, font->tex);
@@ -41,11 +39,10 @@ int DBGP_OpenFont(DBGP_Font *font, SDL_Renderer *renderer, const char * const ra
     for (int gy = 0; gy < font->glyph_height; gy++) {
       for (int gx = 0; gx < font->glyph_width; gx++) {
         SDL_bool pixel = (*ptr >> (7 - gx)) & 1;
-        if (pixel) {
+        if (pixel)
           SDL_RenderDrawPoint(
             renderer, x * font->glyph_width + gx,
             y * font->glyph_height + gy);
-        }
       }
       ptr += 1;
     }
@@ -58,9 +55,9 @@ int DBGP_OpenFont(DBGP_Font *font, SDL_Renderer *renderer, const char * const ra
 } /* DBGP_OpenFont */
 
 void DBGP_CloseFont(DBGP_Font *font) {
-  if (font == NULL) {
+  if (font == NULL)
     return;
-  }
+
   if (font->tex != NULL) {
     SDL_DestroyTexture(font->tex);
     font->tex = NULL;
@@ -73,15 +70,15 @@ static inline SDL_bool is_hex(char c) {
 }
 
 static inline uint8_t get_hex_value(char c) {
-  if (c >= '0' && c <= '9') {
+  if (c >= '0' && c <= '9')
     return(c - '0');
-  }
-  if (c >= 'a' && c <= 'f') {
+
+  if (c >= 'a' && c <= 'f')
     return(c - 'a' + 10);
-  }
-  if (c >= 'A' && c <= 'F') {
+
+  if (c >= 'A' && c <= 'F')
     return(c - 'A' + 10);
-  }
+
   return(0);
 }
 
@@ -93,13 +90,12 @@ static const Uint32 color_palette[16] = {
 };
 
 int DBGP_Print(DBGP_Font *font, SDL_Renderer *renderer, int x, int y, uint8_t colors, const char *str) {
-  if (font == NULL || font->tex == NULL || renderer == NULL) {
+  if (font == NULL || font->tex == NULL || renderer == NULL)
     return(-1);
-  }
+
   Uint8 r = 0, g = 0, b = 0, a = 0;
-  if (SDL_GetRenderDrawColor(renderer, &r, &g, &b, &a) != 0) {
+  if (SDL_GetRenderDrawColor(renderer, &r, &g, &b, &a) != 0)
     SDL_Log("Error while getting renderer draw color: %s", SDL_GetError());
-  }
   for (int pass = 0; pass < 2; pass++) {
     int        ix      = x;
     int        iy      = y;
